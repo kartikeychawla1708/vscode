@@ -91,11 +91,14 @@ class ChatAgents implements IDisposable {
 		this._disposables.add(this.registerVSCodeAgent());
 		this._disposables.add(this.registerTerminalAgent());
 		this._disposables.add(this.registerTerminalPanelAgent());
+		this._disposables.add(this.registerYuktiAgent());
 	}
 
 	private createAgent(name: string, defaultIntentIdOrGetter: IntentOrGetter, options?: { id?: string }): vscode.ChatParticipant {
+		console.log("CREATE AGENT:", name);
 		const id = options?.id || getChatParticipantIdFromName(name);
 		const agent = vscode.chat.createChatParticipant(id, this.getChatParticipantHandler(id, name, defaultIntentIdOrGetter));
+		console.log("CREATED:", id);
 		agent.onDidReceiveFeedback(e => {
 			this.userFeedbackService.handleFeedback(e, id);
 		});
@@ -129,6 +132,12 @@ class ChatAgents implements IDisposable {
 		terminalPanelAgent.iconPath = new vscode.ThemeIcon('terminal');
 
 		return terminalPanelAgent;
+	}
+
+	private registerYuktiAgent(): IDisposable {
+		console.log("REGISTERING YUKTI AGENT");
+		const yukti = this.createAgent("Yukti", () => Intent.Unknown);
+		return yukti;
 	}
 
 	private registerEditingAgent(): IDisposable {
@@ -250,6 +259,21 @@ Learn more about [GitHub Copilot](https://docs.github.com/copilot/using-github-c
 				const intentId = request.command && commandsForAgent ?
 					commandsForAgent[request.command] :
 					defaultIntentId;
+				stream.markdown(`DEBUG PARTICIPANT: ${name}`);
+
+				if (name === 'Yukti') {
+					stream.markdown('🚀 Yukti intercepted request');
+
+					return {
+						metadata: {
+							modelMessageId: '',
+							responseId: generateUuid(),
+							sessionId: request.sessionId,
+							agentId: id,
+							command: request.command
+						}
+					} as vscode.ChatResult;
+				}
 
 				const handler = this.instantiationService.createInstance(ChatParticipantRequestHandler, context.history, request, stream, token, { agentName: name, agentId: id, intentId }, () => context.yieldRequested, telemetryMessageId);
 
