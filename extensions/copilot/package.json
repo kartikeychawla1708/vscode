@@ -1356,16 +1356,17 @@
     ],
     "chatParticipants": [
       {
-        "id": "github.copilot.default",
-        "name": "GitHubCopilot",
-        "fullName": "GitHub Copilot",
+        "id": "github.copilot.yukti",
+        "name": "Yukti",
+        "fullName": "Yukti",
         "description": "%copilot.description%",
         "isDefault": true,
         "locations": [
           "panel"
         ],
         "modes": [
-          "ask"
+          "ask",
+          "agent"
         ],
         "disambiguation": [
           {
@@ -1470,18 +1471,6 @@
               }
             ]
           }
-        ]
-      },
-      {
-        "id": "github.copilot.yukti",
-        "name": "Yukti",
-        "fullName": "Yukti",
-        "description": "Yukti AI",
-        "locations": [
-          "panel"
-        ],
-        "modes": [
-          "ask"
         ]
       },
       {

@@ -510,8 +510,19 @@ export class ChatService extends Disposable implements IChatService {
 		this.activateDefaultAgent(model.initialLocation).catch(e => this.logService.error(e));
 	}
 
+
+
 	async activateDefaultAgent(location: ChatAgentLocation): Promise<void> {
 		await this.extensionService.whenInstalledExtensionsRegistered();
+		this.logService.info(
+			"[YUKTI] contributed default",
+			this.chatAgentService.getContributedDefaultAgent(location)
+		);
+
+		this.logService.info(
+			"[YUKTI] contributed chat default",
+			this.chatAgentService.getContributedDefaultAgent(ChatAgentLocation.Chat)
+		);
 
 		const defaultAgentData = this.chatAgentService.getContributedDefaultAgent(location) ?? this.chatAgentService.getContributedDefaultAgent(ChatAgentLocation.Chat);
 		if (!defaultAgentData) {
@@ -529,7 +540,16 @@ export class ChatService extends Disposable implements IChatService {
 			});
 		}
 
-		const defaultAgent = this.chatAgentService.getActivatedAgents().find(agent => agent.id === defaultAgentData.id);
+		const agents = this.chatAgentService.getActivatedAgents();
+
+		const defaultAgent = agents.find(
+			agent => agent.id === defaultAgentData.id
+		);
+
+		this.logService.info(
+			"[YUKTI] selected default agent",
+			defaultAgent
+		);
 		if (!defaultAgent) {
 			throw new ErrorNoTelemetry('No default agent registered');
 		}
@@ -1545,7 +1565,6 @@ export class ChatService extends Disposable implements IChatService {
 							await autostartResult.wait();
 						}
 					}
-
 					const agentResult = await this.chatAgentService.invokeAgent(agent.id, requestProps, progressCallback, history, token);
 					rawResult = agentResult;
 					agentOrCommandFollowups = this.chatAgentService.getFollowups(agent.id, requestProps, agentResult, history, followupsCancelToken);

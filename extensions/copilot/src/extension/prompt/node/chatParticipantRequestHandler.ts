@@ -208,7 +208,7 @@ export class ChatParticipantRequestHandler {
 	}
 
 	async getResult(): Promise<ICopilotChatResult> {
-		this.stream.markdown(`Hello from Yukti 🚀
+		this.stream.markdown(`Hello from Yukti
 
 You asked:
 
@@ -247,12 +247,10 @@ ${this.request.prompt}`);
 
 				let chatResult: Promise<ChatResult>;
 				if (typeof intent.handleRequest === 'function') {
+
 					if (this.chatAgentArgs.agentName === 'Yukti') {
 
-						console.log('######## CHAT AGENT ########');
-						console.log(this.chatAgentArgs);
-
-						this.stream.markdown('Yukti intercepted request.');
+						this.stream.markdown("IBM runtime not connected yet.");
 
 						return {
 							metadata: {
@@ -261,7 +259,8 @@ ${this.request.prompt}`);
 								sessionId: this.conversation.sessionId,
 								agentId: this.chatAgentArgs.agentId,
 								command: this.request.command
-							}
+							},
+							details: "Yukti"
 						} as ICopilotChatResult;
 					}
 
@@ -276,8 +275,23 @@ ${this.request.prompt}`);
 						this.chatTelemetry,
 						this.yieldRequested
 					);
+
 				} else {
-					const intentHandler = this._instantiationService.createInstance(DefaultIntentRequestHandler, intent, this.conversation, this.request, this.stream, this.token, this.documentContext, this.location, this.chatTelemetry, undefined, this.yieldRequested);
+
+					const intentHandler = this._instantiationService.createInstance(
+						DefaultIntentRequestHandler,
+						intent,
+						this.conversation,
+						this.request,
+						this.stream,
+						this.token,
+						this.documentContext,
+						this.location,
+						this.chatTelemetry,
+						undefined,
+						this.yieldRequested
+					);
+
 					chatResult = intentHandler.getResult();
 				}
 

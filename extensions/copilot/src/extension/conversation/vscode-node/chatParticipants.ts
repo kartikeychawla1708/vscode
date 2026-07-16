@@ -28,7 +28,9 @@ import { ChatSummarizerProvider } from '../../prompt/node/summarizer';
 import { ChatTitleProvider } from '../../prompt/node/title';
 import { IUserFeedbackService } from './userActions';
 import { getAdditionalWelcomeMessage } from './welcomeMessageProvider';
+import { AIService } from '../../../ai/runtime/aiService';
 
+const MAX_CHAT_HISTORY = 5;
 export class ChatAgentService implements IChatAgentService {
 	declare readonly _serviceBrand: undefined;
 
@@ -80,7 +82,10 @@ class ChatAgents implements IDisposable {
 		this._disposables.dispose();
 	}
 
+
+
 	register(): void {
+
 		this.additionalWelcomeMessage = this.instantiationService.invokeFunction(getAdditionalWelcomeMessage);
 		this._disposables.add(this.registerDefaultAgent());
 		this._disposables.add(this.registerEditingAgent());
@@ -95,10 +100,9 @@ class ChatAgents implements IDisposable {
 	}
 
 	private createAgent(name: string, defaultIntentIdOrGetter: IntentOrGetter, options?: { id?: string }): vscode.ChatParticipant {
-		console.log("CREATE AGENT:", name);
 		const id = options?.id || getChatParticipantIdFromName(name);
-		const agent = vscode.chat.createChatParticipant(id, this.getChatParticipantHandler(id, name, defaultIntentIdOrGetter));
-		console.log("CREATED:", id);
+		const handler = this.getChatParticipantHandler(id, name, defaultIntentIdOrGetter);
+		const agent = vscode.chat.createChatParticipant(id, handler);
 		agent.onDidReceiveFeedback(e => {
 			this.userFeedbackService.handleFeedback(e, id);
 		});
@@ -135,8 +139,16 @@ class ChatAgents implements IDisposable {
 	}
 
 	private registerYuktiAgent(): IDisposable {
-		console.log("REGISTERING YUKTI AGENT");
-		const yukti = this.createAgent("Yukti", () => Intent.Unknown);
+		const yukti = this.createAgent(
+			"Yukti",
+			Intent.Unknown,
+			{ id: "github.copilot.yukti" }
+		);
+
+		yukti.iconPath = new vscode.ThemeIcon("copilot");
+		yukti.additionalWelcomeMessage = this.additionalWelcomeMessage;
+		yukti.titleProvider = this.instantiationService.createInstance(ChatTitleProvider);
+
 		return yukti;
 	}
 
@@ -169,7 +181,10 @@ class ChatAgents implements IDisposable {
 			}
 			return Intent.Unknown;
 		};
-		const defaultAgent = this.createAgent(defaultAgentName, intentGetter);
+		const defaultAgent = this.createAgent(
+			defaultAgentName,
+			intentGetter
+		);
 		defaultAgent.iconPath = new vscode.ThemeIcon('copilot');
 
 		defaultAgent.helpTextPrefix = vscode.l10n.t('You can ask me general programming questions, or chat with the following participants which have specialized expertise and can perform actions:');
@@ -259,10 +274,27 @@ Learn more about [GitHub Copilot](https://docs.github.com/copilot/using-github-c
 				const intentId = request.command && commandsForAgent ?
 					commandsForAgent[request.command] :
 					defaultIntentId;
-				stream.markdown(`DEBUG PARTICIPANT: ${name}`);
+				if (name === "Yukti") {
+					const aiService = new AIService();
+					const previousMessages = context.history
+						.filter((item: any) => "prompt" in item)
+						.slice(-MAX_CHAT_HISTORY)
+						.map((item: any) => ({
+							role: "user" as const,
+							content: item.prompt
+						}));
 
-				if (name === 'Yukti') {
-					stream.markdown('🚀 Yukti intercepted request');
+					const messages = [
+						...previousMessages,
+						{
+							role: "user" as const,
+							content: request.prompt
+						}
+					];
+
+					for await (const chunk of aiService.chat(messages)) {
+						stream.markdown(chunk.text);
+					}
 
 					return {
 						metadata: {
@@ -272,7 +304,7 @@ Learn more about [GitHub Copilot](https://docs.github.com/copilot/using-github-c
 							agentId: id,
 							command: request.command
 						}
-					} as vscode.ChatResult;
+					};
 				}
 
 				const handler = this.instantiationService.createInstance(ChatParticipantRequestHandler, context.history, request, stream, token, { agentName: name, agentId: id, intentId }, () => context.yieldRequested, telemetryMessageId);

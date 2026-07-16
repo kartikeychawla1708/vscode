@@ -5,16 +5,21 @@
 
 import { createDecorator } from '../../platform/instantiation/common/instantiation.js';
 
-export const IAIService = createDecorator<IAIService>('vyom.aiService');
+export interface AIChatMessage {
+	readonly role: 'system' | 'user' | 'assistant';
+	readonly content: string;
+}
+
+export interface AIChatChunk {
+	readonly text: string;
+}
+
 
 export interface IAIService {
 
 	readonly _serviceBrand: undefined;
 
-	getAgentName(): string;
-
-	getIdeName(): string;
-
-	isAvailable(): boolean;
-
+	chat(messages: readonly AIChatMessage[]): AsyncIterable<AIChatChunk>;
 }
+
+export const IAIService = createDecorator<IAIService>('aiService');
