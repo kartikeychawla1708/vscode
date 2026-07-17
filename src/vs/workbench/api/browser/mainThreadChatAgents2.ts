@@ -351,6 +351,9 @@ export class MainThreadChatAgents2 extends Disposable implements MainThreadChatA
 
 		const impl: IChatAgentImplementation = {
 			invoke: async (request, progress, history, token) => {
+				console.log("[YUKTI INVOKE REQUEST]", request);
+				console.log("[YUKTI HISTORY]", history.length);
+				console.log("[YUKTI INVOKE REQUEST]", JSON.stringify(request, null, 2));
 				const chatSession = this._chatService.getSession(request.sessionResource);
 				this._pendingProgress.set(request.requestId, { progress, chatSession, isSubagent: !!request.subAgentInvocationId });
 				try {
@@ -453,7 +456,12 @@ export class MainThreadChatAgents2 extends Disposable implements MainThreadChatA
 				},
 				impl);
 		} else {
-			disposable = this._chatAgentService.registerAgentImplementation(id, impl);
+			try {
+				disposable = this._chatAgentService.registerAgentImplementation(id, impl);
+			} catch (e) {
+				console.error("[YUKTI] registerAgentImplementation FAILED", id, e);
+				throw e;
+			}
 		}
 
 		this._agents.set(handle, {
@@ -468,7 +476,7 @@ export class MainThreadChatAgents2 extends Disposable implements MainThreadChatA
 		await this._extensionService.whenInstalledExtensionsRegistered();
 		const data = this._agents.get(handle);
 		if (!data) {
-			this._logService.error(`MainThreadChatAgents2#$updateAgent: No agent with handle ${handle} registered`);
+			//this._logService.error(`MainThreadChatAgents2#$updateAgent: No agent with handle ${handle} registered`);
 			return;
 		}
 		data.hasFollowups = metadataUpdate.hasFollowups;

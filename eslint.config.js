@@ -1700,6 +1700,14 @@ export default defineConfig(
 					]
 				},
 				{
+					'target': 'src/vs/ai/**',
+					'restrictions': [
+						'vs/base/**',
+						'vs/platform/**',
+						'vs/ai/**'
+					]
+				},
+				{
 					'target': 'src/vs/editor/~',
 					'restrictions': [
 						'vs/base/~',
@@ -1972,7 +1980,8 @@ export default defineConfig(
 						'vs/workbench/contrib/*/~',
 						'vs/workbench/contrib/terminal/terminal.all.js',
 						'vs/sessions/common/theme.js', // side-effect import for color registry
-						'vs/sessions/common/sizes.js' // side-effect import for size registry
+						'vs/sessions/common/sizes.js', // side-effect import for size registry
+						'vs/ai/~', // addition for Yukti
 					]
 				},
 				{
@@ -2006,7 +2015,8 @@ export default defineConfig(
 						'vs/workbench/api/~',
 						'vs/workbench/services/*/~',
 						'vs/workbench/contrib/*/~',
-						'vs/workbench/workbench.web.main.js'
+						'vs/workbench/workbench.web.main.js',
+						'vs/ai/~', // addition for Yukti
 					]
 				},
 				{
@@ -2023,7 +2033,8 @@ export default defineConfig(
 						'vs/workbench/api/~',
 						'vs/workbench/services/*/~',
 						'vs/workbench/contrib/*/~',
-						'vs/workbench/workbench.common.main.js'
+						'vs/workbench/workbench.common.main.js',
+						'vs/ai/~', // addition for Yukti
 					]
 				},
 				{

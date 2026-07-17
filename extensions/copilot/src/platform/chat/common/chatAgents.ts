@@ -26,7 +26,7 @@ export const editsAgentName = 'editsAgent';
 
 export const CHAT_PARTICIPANT_ID_PREFIX = 'github.copilot.';
 export function getChatParticipantIdFromName(name: string): string {
-	return `${CHAT_PARTICIPANT_ID_PREFIX}${name}`;
+	return `${CHAT_PARTICIPANT_ID_PREFIX}${name.toLowerCase()}`;
 }
 
 export function getChatParticipantNameFromId(id: string): string {

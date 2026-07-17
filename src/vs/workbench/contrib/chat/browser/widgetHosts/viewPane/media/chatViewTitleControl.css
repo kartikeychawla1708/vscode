@@ -6,8 +6,22 @@
 .chat-viewpane {
 
 	.chat-view-title-container {
+
+		background:
+        linear-gradient(
+            90deg,
+            rgba(168,85,247,.12),
+            rgba(59,130,246,.06)
+        );
+
+		border-bottom:
+        1px solid rgba(168,85,247,.35);
 		display: none;
 		cursor: pointer;
+		/* Added by Nazeer */
+		border-bottom: 1px solid rgba(139,77,255,.35);
+		
+		
 
 		.chat-view-title-inner {
 			display: flex;
@@ -32,6 +46,7 @@
 				}
 			}
 		}
+		
 
 		.chat-view-title-label {
 			text-transform: uppercase;
@@ -43,6 +58,18 @@
 			white-space: nowrap;
 			text-overflow: ellipsis;
 			min-width: 0;
+			/* Added by Nazeer */
+			background: linear-gradient(
+						90deg,
+						#3b82f6,
+						#8b5cf6,
+						#a855f7
+					);
+			-webkit-background-clip: text;
+			-webkit-text-fill-color: transparent;
+			font-weight: 700;
+			color: #b56cff;
+			text-shadow: 0 0 8px rgba(181,108,255,.45);
 		}
 
 		.chat-view-title-actions-toolbar {
@@ -96,4 +123,15 @@
 			padding: 0 8px 0 16px;
 		}
 	}
+	.pane-body {
+    background:
+        linear-gradient(
+            180deg,
+            #070b18 0%,
+            #090d1f 50%,
+            #0a0820 100%
+        );
+	}
 }
+
+

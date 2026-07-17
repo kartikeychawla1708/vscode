@@ -875,7 +875,7 @@ export class WorkspacePicker extends Disposable {
 
 		this._triggerElement.setAttribute('aria-label', workspace
 			? localize('workspacePicker.selectedAriaLabel', "New session in {0}", label)
-			: localize('workspacePicker.pickAriaLabel', "Start by picking a workspace"));
+			: localize('workspacePicker.pickAriaLabel', "Start chatting with Yukti"));
 
 		dom.append(this._triggerElement, renderIcon(icon));
 		const labelSpan = dom.append(this._triggerElement, dom.$('span.sessions-chat-dropdown-label'));

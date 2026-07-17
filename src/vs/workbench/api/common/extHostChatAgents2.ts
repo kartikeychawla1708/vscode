@@ -699,7 +699,6 @@ export class ExtHostChatAgents2 extends Disposable implements ExtHostChatAgentsS
 		const handle = ExtHostChatAgents2._idPool++;
 		const agent = new ExtHostChatAgent(extension, id, this._proxy, handle, handler);
 		this._agents.set(handle, agent);
-
 		this._proxy.$registerAgent(handle, extension.identifier, id, {}, undefined);
 		return agent.apiAgent;
 	}
@@ -986,7 +985,6 @@ export class ExtHostChatAgents2 extends Disposable implements ExtHostChatAgentsS
 
 		try {
 			const { request, location, history } = await this._createRequest(requestDto, context, agent.extension);
-
 			// Init session disposables
 			let sessionDisposables = this._sessionDisposables.get(request.sessionResource);
 			if (!sessionDisposables) {
@@ -1531,7 +1529,9 @@ class ExtHostChatAgent {
 	}
 
 	invoke(request: vscode.ChatRequest, context: vscode.ChatContext, response: vscode.ChatResponseStream, token: CancellationToken): vscode.ProviderResult<vscode.ChatResult | void> {
-		return this._requestHandler(request, context, response, token);
+		const result = this._requestHandler(request, context, response, token);
+		return result;
+		//return this._requestHandler(request, context, response, token);
 	}
 }
 

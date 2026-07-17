@@ -1,14 +1,23 @@
 {
   "name": "code-oss-dev",
   "version": "1.128.0",
-  "distro": "1ec113de3e26ba3133915ecee3b613f0b7740ede",
-  "author": {
-    "name": "Microsoft Corporation"
+  "private": true,
+  "description": "[![Feature Requests](https://img.shields.io/github/issues/microsoft/vscode/feature-request.svg)](https://github.com/microsoft/vscode/issues?q=is%3Aopen+is%3Aissue+label%3Afeature-request+sort%3Areactions-%2B1-desc)\r [![Bugs](https://img.shields.io/github/issues/microsoft/vscode/bug.svg)](https://github.com/microsoft/vscode/issues?utf8=✓&q=is%3Aissue+is%3Aopen+label%3Abug)\r [![Gitter](https://img.shields.io/badge/chat-on%20gitter-yellow.svg)](https://gitter.im/Microsoft/vscode)",
+  "homepage": "https://github.com/microsoft/vscode#readme",
+  "bugs": {
+    "url": "https://github.com/microsoft/vscode/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/microsoft/vscode.git"
   },
   "license": "MIT",
-  "main": "./out/main.js",
+  "author": "Microsoft Corporation",
   "type": "module",
-  "private": true,
+  "main": "./out/main.js",
+  "directories": {
+    "test": "test"
+  },
   "scripts": {
     "test": "echo Please run any of the test scripts from the scripts folder.",
     "test-browser": "npx playwright install && node test/unit/browser/index.js",
@@ -264,6 +273,9 @@
     "xml2js": "^0.5.0",
     "yaserver": "^0.4.0"
   },
+  "optionalDependencies": {
+    "windows-foreground-love": "0.6.1"
+  },
   "overrides": {
     "node-gyp-build": "4.8.1",
     "kerberos@2.1.1": {
@@ -275,14 +287,5 @@
     },
     "yauzl": "^3.3.1"
   },
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/microsoft/vscode.git"
-  },
-  "bugs": {
-    "url": "https://github.com/microsoft/vscode/issues"
-  },
-  "optionalDependencies": {
-    "windows-foreground-love": "0.6.1"
-  }
+  "distro": "1ec113de3e26ba3133915ecee3b613f0b7740ede"
 }
