@@ -2,28 +2,33 @@
  *  Copyright (c) Microsoft Corporation. All rights reserved.
  *  Licensed under the MIT License. See License.txt in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
+.interactive-session,
+.chat-widget,
+.chat-editor,
+.chat-view {
 
-.interactive-session {
-	display: flex;
-	flex-direction: column;
-	max-width: 950px;
-	height: 100%;
-	margin: auto;
-	position: relative;
-	/* Enable absolute positioning for child elements */
+    background:
+        radial-gradient(
+            circle at 50% 15%,
+            rgba(168,85,247,.18),
+            transparent 45%
+        ),
 
-	/* 11px when base font is 13px */
-	--vscode-chat-font-size-body-xs: 0.846em;
-	/* 12px when base font is 13px */
-	--vscode-chat-font-size-body-s: 0.923em;
-	/* 13px when base font is 13px */
-	--vscode-chat-font-size-body-m: 1em;
-	/* 14px when base font is 13px */
-	--vscode-chat-font-size-body-l: 1.077em;
-	/* 16px when base font is 13px */
-	--vscode-chat-font-size-body-xl: 1.231em;
-	/* 20px when base font is 13px */
-	--vscode-chat-font-size-body-xxl: 1.538em;
+        radial-gradient(
+            circle at 80% 70%,
+            rgba(59,130,246,.15),
+            transparent 40%
+        ),
+
+        linear-gradient(
+            180deg,
+            #050816 0%,
+            #090d1f 50%,
+            #0a0820 100%
+			
+			
+        ) !important;
+		
 }
 
 .interactive-list > .monaco-list > .monaco-scrollable-element > .monaco-list-rows > .monaco-list-row > .monaco-tl-row > .monaco-tl-twistie {
@@ -622,7 +627,11 @@
 	}
 
 	.tool-output-part {
-		border: 1px solid var(--vscode-widget-border);
+		/*Added by Nazeer*/
+		box-shadow: 0 0 20px rgba(168,85,247,.35);
+		border: 1px solid rgba(168,85,247,.5);
+		backdrop-filter: blur(8px);
+		/*border: 1px solid var(--vscode-widget-border);*/
 		border-radius: var(--vscode-cornerRadius-medium);
 		background: var(--vscode-editor-background);
 		margin: 4px 0;
@@ -861,8 +870,22 @@ have to be updated for changes to the rules above, or to support more deeply nes
 	box-sizing: border-box;
 	cursor: text;
 	background-color: var(--vscode-input-background);
-	border: 1px solid var(--vscode-input-border, transparent);
-	border-radius: var(--vscode-cornerRadius-large);
+	/*border: 1px solid var(--vscode-input-border, transparent);
+	Added by Nazeer*/
+	background: rgba(8, 10, 35, 0.88);
+
+    border: 1px solid rgba(168,85,247,.5);
+
+    border-radius: 14px;
+
+    box-shadow:
+        0 0 12px rgba(168,85,247,.45),
+        0 0 24px rgba(59,130,246,.20);
+
+    backdrop-filter: blur(8px);
+    box-shadow:
+        0 0 12px rgba(139,77,255,.30),
+        0 0 25px rgba(30,124,255,.20);
 	padding: 0 6px 6px 6px;
 	/* top padding is inside the editor widget */
 	width: 100%;
@@ -1000,7 +1023,8 @@ have to be updated for changes to the rules above, or to support more deeply nes
 
 .monaco-workbench .interactive-session .chat-input-container.working .interactive-input-editor .monaco-editor,
 .monaco-workbench .interactive-session .chat-input-container.working .interactive-input-editor .monaco-editor .monaco-editor-background {
-	background-color: transparent;
+	/*background-color: transparent; */
+	background: #0a0820 !important;
 }
 
 .monaco-workbench .interactive-session .chat-input-container.working::before {
@@ -1095,7 +1119,16 @@ have to be updated for changes to the rules above, or to support more deeply nes
 
 /* Idle: solid primary button background. */
 .interactive-session .chat-input-toolbars > .chat-execute-toolbar .monaco-action-bar .action-item:not(.disabled) > .action-label.codicon-arrow-up {
-	background: var(--vscode-button-background);
+	background:
+		linear-gradient(
+		135deg,
+		#2F6BFF 0%,
+		#5B45FF 50%,
+		#8B3DFF 100%
+);
+box-shadow:
+	0 0 10px rgba(47,107,255,.5),
+	0 0 20px rgba(139,61,255,.4);
 	color: var(--vscode-button-foreground) !important;
 	border-radius: var(--vscode-cornerRadius-circle);
 	transition: background-color 120ms ease;
@@ -1370,6 +1403,18 @@ have to be updated for changes to the rules above, or to support more deeply nes
 	position: relative;
 }
 
+.interactive-input-part {
+	background: rgba(13,19,37,.95);
+
+	border: 1px solid rgba(139,61,255,.35);
+
+	border-radius: 12px;
+
+	box-shadow:
+		0 0 10px rgba(47,107,255,.15),
+		0 0 20px rgba(139,61,255,.15);
+}
+
 
 .interactive-session .interactive-input-part > .chat-artifacts-widget-container {
 	margin-bottom: -4px;
@@ -1566,7 +1611,18 @@ have to be updated for changes to the rules above, or to support more deeply nes
 }
 
 .interactive-session .chat-input-container.focused {
-	border-color: var(--vscode-focusBorder);
+	/*border-color: var(--vscode-focusBorder);*/
+	/* Added by Nazeer */
+	border-color: rgba(168,85,247,.9);
+
+    box-shadow:
+        0 0 18px rgba(168,85,247,.65),
+        0 0 36px rgba(59,130,246,.30);
+	/*border-color: #8b4dff;
+    box-shadow:
+        0 0 8px rgba(139,77,255,.45),
+        0 0 20px rgba(139,77,255,.35),
+        0 0 40px rgba(30,124,255,.25); */
 }
 
 .chat-editor-container {
@@ -1618,14 +1674,16 @@ have to be updated for changes to the rules above, or to support more deeply nes
 
 .interactive-session .interactive-input-part .chat-editor-container .interactive-input-editor .monaco-editor,
 .interactive-session .interactive-input-part .chat-editor-container .interactive-input-editor .monaco-editor .monaco-editor-background {
-	background-color: var(--vscode-input-background);
+	background: #0a0820 !important;
+	/*background-color: var(--vscode-input-background);*/
 }
 
 .interactive-session .interactive-input-part.editing .chat-input-container .chat-editor-container .monaco-editor,
 .interactive-session .interactive-input-part.editing .chat-input-container .chat-editor-container .monaco-editor .monaco-editor-background,
 .interactive-session .interactive-request.editing .interactive-input-part .chat-input-container .chat-editor-container .monaco-editor,
 .interactive-session .interactive-request.editing .interactive-input-part .chat-input-container .chat-editor-container .monaco-editor .monaco-editor-background {
-	background-color: transparent;
+	/* background-color: transparent; */
+	background: #0a0820 !important;
 }
 
 .interactive-session .interactive-input-part.editing .chat-input-container,
@@ -2087,7 +2145,8 @@ have to be updated for changes to the rules above, or to support more deeply nes
 .interactive-response .interactive-result-code-block .interactive-result-editor .monaco-editor,
 .interactive-response .interactive-result-code-block .interactive-result-editor .monaco-editor .margin,
 .interactive-response .interactive-result-code-block .interactive-result-editor .monaco-editor .monaco-editor-background {
-	background-color: var(--vscode-interactive-result-editor-background-color) !important;
+	background: #0a0820 !important;
+	/*background-color: var(--vscode-interactive-result-editor-background-color) !important;*/
 }
 
 .interactive-item-compact .interactive-result-code-block {
@@ -2426,7 +2485,7 @@ have to be updated for changes to the rules above, or to support more deeply nes
 	padding: 0;
 	line-height: 100% !important;
 	align-self: center;
-
+	
 	background-size: contain;
 	background-position: center;
 	background-repeat: no-repeat;
@@ -2526,6 +2585,13 @@ have to be updated for changes to the rules above, or to support more deeply nes
 }
 
 .quick-input-widget .interactive-list {
+	background:
+        linear-gradient(
+            180deg,
+            #050816,
+            #090d1f,
+            #0a0820
+        ) !important;
 	border-bottom-right-radius: 6px;
 	border-bottom-left-radius: 6px;
 }
@@ -3102,6 +3168,13 @@ have to be updated for changes to the rules above, or to support more deeply nes
 
 .interactive-session .chat-file-changes-label .monaco-button:hover {
 	background-color: var(--vscode-toolbar-hoverBackground);
+	background:
+		radial-gradient(
+		circle at center,
+		rgba(40,25,120,.22) 0%,
+		rgba(10,10,40,.95) 65%,
+		rgba(4,4,18,1) 100%
+	);
 }
 
 .interactive-session .chat-used-context:not(.chat-used-context-collapsed) .chat-used-context-label .monaco-button,
@@ -4671,4 +4744,80 @@ have to be updated for changes to the rules above, or to support more deeply nes
 	background: none;
 	-webkit-text-fill-color: currentColor;
 	color: var(--vscode-foreground);
+}
+
+.interactive-session {
+	/*Added by Nazeer*/
+	background:
+
+		radial-gradient(
+			circle at 50% 20%,
+			rgba(139,61,255,.16),
+			transparent 45%
+		),
+
+		radial-gradient(
+			circle at 85% 75%,
+			rgba(47,107,255,.12),
+			transparent 40%
+		),
+
+		linear-gradient(
+			180deg,
+			var(--vyom-bg),
+			#090d1d,
+			#120824
+		);
+}
+
+box-shadow:
+0 0 20px rgba(168,85,247,.35);
+
+border:
+1px solid rgba(168,85,247,.5);
+
+backdrop-filter:
+blur(8px);
+
+.chat-widget::before {
+
+    content: "Yukti";
+
+    position: absolute;
+
+    font-size: 180px;
+
+    opacity: .03;
+
+    font-weight: 700;
+
+    pointer-events: none;
+}
+
+.interactive-session::before {
+
+	content: "Yukti";
+
+	position: absolute;
+
+	inset: 0;
+
+	display: flex;
+
+	align-items: center;
+
+	justify-content: center;
+
+	font-size: 180px;
+
+	font-weight: 700;
+
+	color: rgba(255,255,255,.025);
+
+	pointer-events: none;
+
+	user-select: none;
+
+	letter-spacing: 8px;
+
 }

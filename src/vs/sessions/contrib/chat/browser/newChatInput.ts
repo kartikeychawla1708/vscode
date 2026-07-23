@@ -204,7 +204,7 @@ export interface INewChatInputSendRequest {
 const RANDOM_PLACEHOLDERS = [
 	localize('sessionsChatInput.placeholder.whatAreYouBuilding', "What are you building?"),
 	localize('sessionsChatInput.placeholder.whatWillYouShipToday', "What will you ship today?"),
-	localize('sessionsChatInput.placeholder.describeWhatYouWantToBuild', "Describe what you want to build"),
+	localize('sessionsChatInput.placeholder.describeWhatYouWantToBuild', "To ask from Yukti ask @Yukti "),
 	localize('sessionsChatInput.placeholder.whatsYourNextMilestone', "What's your next milestone?"),
 	localize('sessionsChatInput.placeholder.whatAreYouTryingToAchieve', "What are you trying to achieve?"),
 	localize('sessionsChatInput.placeholder.pitchYourIdea', "Pitch your idea"),

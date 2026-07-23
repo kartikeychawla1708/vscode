@@ -20,7 +20,7 @@ import { AgentConfig, AgentHandoff, buildAgentMarkdown, DEFAULT_READ_TOOLS } fro
 const BASE_PLAN_AGENT_CONFIG: AgentConfig = {
 	name: 'Plan',
 	description: 'Researches and outlines multi-step plans',
-	argumentHint: 'Outline the goal or problem to research',
+	argumentHint: 'To ask from Yukti ask @Yukti',
 	target: 'vscode',
 	disableModelInvocation: true,
 	tools: [

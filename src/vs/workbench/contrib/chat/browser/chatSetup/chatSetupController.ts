@@ -141,6 +141,8 @@ export class ChatSetupController extends Disposable {
 
 			// Await Install
 			this.setStep(ChatSetupStep.Installing);
+			//Added by Nazeer
+			console.log('YUKTI BYPASS ACTIVE');
 			success = await this.install(entitlement ?? this.context.state.entitlement, watch, options);
 		} finally {
 			this.setStep(ChatSetupStep.Initial);
