@@ -1712,6 +1712,7 @@ export function createApiFactoryAndRegisterActors(accessor: ServicesAccessor): I
 				return extHostCodeMapper.registerMappedEditsProvider(extension, provider);
 			},
 			createChatParticipant(id: string, handler: vscode.ChatExtendedRequestHandler) {
+				//throw new Error("YUKTI TEST - extHost.api.impl.ts reached");
 				return extHostChatAgents2.createChatAgent(extension, id, handler);
 			},
 			createDynamicChatParticipant(id: string, dynamicProps: vscode.DynamicChatParticipantProps, handler: vscode.ChatExtendedRequestHandler): vscode.ChatParticipant {

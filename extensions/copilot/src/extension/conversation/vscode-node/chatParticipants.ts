@@ -28,7 +28,9 @@ import { ChatSummarizerProvider } from '../../prompt/node/summarizer';
 import { ChatTitleProvider } from '../../prompt/node/title';
 import { IUserFeedbackService } from './userActions';
 import { getAdditionalWelcomeMessage } from './welcomeMessageProvider';
+import { AIService } from '../../../ai/runtime/aiService';
 
+const MAX_CHAT_HISTORY = 5;
 export class ChatAgentService implements IChatAgentService {
 	declare readonly _serviceBrand: undefined;
 
@@ -80,7 +82,10 @@ class ChatAgents implements IDisposable {
 		this._disposables.dispose();
 	}
 
+
+
 	register(): void {
+
 		this.additionalWelcomeMessage = this.instantiationService.invokeFunction(getAdditionalWelcomeMessage);
 		this._disposables.add(this.registerDefaultAgent());
 		this._disposables.add(this.registerEditingAgent());
@@ -91,11 +96,13 @@ class ChatAgents implements IDisposable {
 		this._disposables.add(this.registerVSCodeAgent());
 		this._disposables.add(this.registerTerminalAgent());
 		this._disposables.add(this.registerTerminalPanelAgent());
+		this._disposables.add(this.registerYuktiAgent());
 	}
 
 	private createAgent(name: string, defaultIntentIdOrGetter: IntentOrGetter, options?: { id?: string }): vscode.ChatParticipant {
 		const id = options?.id || getChatParticipantIdFromName(name);
-		const agent = vscode.chat.createChatParticipant(id, this.getChatParticipantHandler(id, name, defaultIntentIdOrGetter));
+		const handler = this.getChatParticipantHandler(id, name, defaultIntentIdOrGetter);
+		const agent = vscode.chat.createChatParticipant(id, handler);
 		agent.onDidReceiveFeedback(e => {
 			this.userFeedbackService.handleFeedback(e, id);
 		});
@@ -131,6 +138,20 @@ class ChatAgents implements IDisposable {
 		return terminalPanelAgent;
 	}
 
+	private registerYuktiAgent(): IDisposable {
+		const yukti = this.createAgent(
+			"Yukti",
+			Intent.Unknown,
+			{ id: "github.copilot.yukti" }
+		);
+
+		yukti.iconPath = new vscode.ThemeIcon("copilot");
+		yukti.additionalWelcomeMessage = this.additionalWelcomeMessage;
+		yukti.titleProvider = this.instantiationService.createInstance(ChatTitleProvider);
+
+		return yukti;
+	}
+
 	private registerEditingAgent(): IDisposable {
 		const editingAgent = this.createAgent(editingSessionAgentName, Intent.Edit);
 		editingAgent.iconPath = new vscode.ThemeIcon('copilot');
@@ -160,7 +181,10 @@ class ChatAgents implements IDisposable {
 			}
 			return Intent.Unknown;
 		};
-		const defaultAgent = this.createAgent(defaultAgentName, intentGetter);
+		const defaultAgent = this.createAgent(
+			defaultAgentName,
+			intentGetter
+		);
 		defaultAgent.iconPath = new vscode.ThemeIcon('copilot');
 
 		defaultAgent.helpTextPrefix = vscode.l10n.t('You can ask me general programming questions, or chat with the following participants which have specialized expertise and can perform actions:');
@@ -250,6 +274,38 @@ Learn more about [GitHub Copilot](https://docs.github.com/copilot/using-github-c
 				const intentId = request.command && commandsForAgent ?
 					commandsForAgent[request.command] :
 					defaultIntentId;
+				if (name === "Yukti") {
+					const aiService = new AIService();
+					const previousMessages = context.history
+						.filter((item: any) => "prompt" in item)
+						.slice(-MAX_CHAT_HISTORY)
+						.map((item: any) => ({
+							role: "user" as const,
+							content: item.prompt
+						}));
+
+					const messages = [
+						...previousMessages,
+						{
+							role: "user" as const,
+							content: request.prompt
+						}
+					];
+
+					for await (const chunk of aiService.chat(messages)) {
+						stream.markdown(chunk.text);
+					}
+
+					return {
+						metadata: {
+							modelMessageId: '',
+							responseId: generateUuid(),
+							sessionId: request.sessionId,
+							agentId: id,
+							command: request.command
+						}
+					};
+				}
 
 				const handler = this.instantiationService.createInstance(ChatParticipantRequestHandler, context.history, request, stream, token, { agentName: name, agentId: id, intentId }, () => context.yieldRequested, telemetryMessageId);
 

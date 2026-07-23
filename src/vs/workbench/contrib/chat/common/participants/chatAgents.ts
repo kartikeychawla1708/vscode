@@ -440,13 +440,18 @@ export class ChatAgentService extends Disposable implements IChatAgentService {
 	}
 
 	getDefaultAgent(location: ChatAgentLocation, mode: ChatModeKind = ChatModeKind.Ask): IChatAgent | undefined {
-		return this._preferExtensionAgent(this.getActivatedAgents().filter(a => {
+
+
+		const agents = this.getActivatedAgents().filter(a => {
 			if (mode && !a.modes.includes(mode)) {
 				return false;
 			}
 
 			return !!a.isDefault && a.locations.includes(location);
-		}));
+		});
+
+		const chosen = this._preferExtensionAgent(agents);
+		return chosen;
 	}
 
 	public get hasToolsAgent(): boolean {
@@ -458,12 +463,22 @@ export class ChatAgentService extends Disposable implements IChatAgentService {
 		return this._preferExtensionAgent(this.getAgents().filter(a => !!a.isDefault && a.locations.includes(location)));
 	}
 
-	private _preferExtensionAgent<T extends IChatAgentData>(agents: T[]): T | undefined {
+	/* private _preferExtensionAgent<T extends IChatAgentData>(agents: T[]): T | undefined {
 		// We potentially have multiple agents on the same location,
 		// contributed from core and from extensions.
 		// This method will prefer the last extensions provided agent
 		// falling back to the last core agent if no extension agent is found.
 		return findLast(agents, agent => !agent.isCore) ?? agents.at(-1);
+	} */
+
+	private _preferExtensionAgent<T extends IChatAgentData>(agents: T[]): T | undefined {
+
+		const yukti = agents.find(a => a.id === "github.copilot.yukti");
+		if (yukti) {
+			return yukti;
+		}
+
+		return findLast(agents, a => !a.isCore) ?? agents.at(-1);
 	}
 
 	getAgent(id: string, includeDisabled = false): IChatAgentData | undefined {

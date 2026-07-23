@@ -266,7 +266,6 @@ export class SetupAgent extends Disposable implements IChatAgentImplementation {
 		})) {
 			return this.doInvokeWithSetup(request, progress, chatService, languageModelsService, chatWidgetService, chatAgentService, languageModelToolsService, defaultAccountService);
 		}
-
 		return this.doInvokeWithoutSetup(request, progress, chatService, languageModelsService, chatWidgetService, chatAgentService, languageModelToolsService);
 	}
 
@@ -621,13 +620,29 @@ export class SetupAgent extends Disposable implements IChatAgentImplementation {
 	}
 
 	private whenAgentReady(chatAgentService: IChatAgentService, mode: ChatModeKind | undefined): Promise<unknown> | void {
+
 		const defaultAgent = chatAgentService.getDefaultAgent(this.location, mode);
+
+		console.log("[YUKTI READY CHECK]");
+		console.log("location =", this.location);
+		console.log("mode =", mode);
+		console.log("defaultAgent =", defaultAgent?.id);
+		console.log("isCore =", defaultAgent?.isCore);
+		console.log("isDefault =", defaultAgent?.isDefault);
+
 		if (defaultAgent && !defaultAgent.isCore) {
-			return; // we have a default agent from an extension!
+			console.log("[YUKTI READY] SUCCESS");
+			return;
 		}
+
+		console.log("[YUKTI READY] WAITING");
 
 		return Event.toPromise(Event.filter(chatAgentService.onDidChangeAgents, () => {
 			const defaultAgent = chatAgentService.getDefaultAgent(this.location, mode);
+
+			console.log("[YUKTI EVENT]");
+			console.log(defaultAgent?.id, defaultAgent?.isCore);
+
 			return Boolean(defaultAgent && !defaultAgent.isCore);
 		}));
 	}
