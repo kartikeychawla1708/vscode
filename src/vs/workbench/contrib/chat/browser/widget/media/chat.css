@@ -2,7 +2,6 @@
  *  Copyright (c) Microsoft Corporation. All rights reserved.
  *  Licensed under the MIT License. See License.txt in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
-
 .interactive-session,
 .chat-widget,
 .chat-editor,
@@ -29,6 +28,7 @@
 			
 			
         ) !important;
+		
 }
 
 .interactive-list > .monaco-list > .monaco-scrollable-element > .monaco-list-rows > .monaco-list-row > .monaco-tl-row > .monaco-tl-twistie {
@@ -1120,11 +1120,11 @@ have to be updated for changes to the rules above, or to support more deeply nes
 /* Idle: solid primary button background. */
 .interactive-session .chat-input-toolbars > .chat-execute-toolbar .monaco-action-bar .action-item:not(.disabled) > .action-label.codicon-arrow-up {
 	background:
-linear-gradient(
-	135deg,
-	#2F6BFF 0%,
-	#5B45FF 50%,
-	#8B3DFF 100%
+		linear-gradient(
+		135deg,
+		#2F6BFF 0%,
+		#5B45FF 50%,
+		#8B3DFF 100%
 );
 box-shadow:
 	0 0 10px rgba(47,107,255,.5),
@@ -4748,13 +4748,26 @@ box-shadow:
 
 .interactive-session {
 	/*Added by Nazeer*/
-	    background:
-        radial-gradient(
-            circle at center,
-            rgba(139,92,246,.12) 0%,
-            rgba(59,130,246,.08) 40%,
-            rgba(5,10,30,.95) 100%
-        );
+	background:
+
+		radial-gradient(
+			circle at 50% 20%,
+			rgba(139,61,255,.16),
+			transparent 45%
+		),
+
+		radial-gradient(
+			circle at 85% 75%,
+			rgba(47,107,255,.12),
+			transparent 40%
+		),
+
+		linear-gradient(
+			180deg,
+			var(--vyom-bg),
+			#090d1d,
+			#120824
+		);
 }
 
 box-shadow:
@@ -4768,7 +4781,7 @@ blur(8px);
 
 .chat-widget::before {
 
-    content: "VYOM";
+    content: "Yukti";
 
     position: absolute;
 
@@ -4779,4 +4792,32 @@ blur(8px);
     font-weight: 700;
 
     pointer-events: none;
+}
+
+.interactive-session::before {
+
+	content: "Yukti";
+
+	position: absolute;
+
+	inset: 0;
+
+	display: flex;
+
+	align-items: center;
+
+	justify-content: center;
+
+	font-size: 180px;
+
+	font-weight: 700;
+
+	color: rgba(255,255,255,.025);
+
+	pointer-events: none;
+
+	user-select: none;
+
+	letter-spacing: 8px;
+
 }
