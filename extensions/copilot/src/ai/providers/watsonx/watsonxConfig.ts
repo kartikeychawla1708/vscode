@@ -3,8 +3,8 @@
  *  Licensed under the MIT License. See License.txt in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
 export const watsonxConfig = {
-	apiKey: "QRT6QkW6S9UFz_6dFMiwmjF186pBV8PyCDlPQhBMAZFm",
-	projectId: "e9198aea-1fa3-48a1-851e-ab475e5bb05b",
+	apiKey: "",
+	projectId: "",
 	modelId: "meta-llama/llama-3-3-70b-instruct",
 	region: "jp-tok",
 	version: "2025-12-11"
