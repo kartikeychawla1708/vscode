@@ -4763,7 +4763,7 @@ box-shadow:
 
 		linear-gradient(
 			180deg,
-			var(--vyom-bg),
+			/*var(--vyom-bg),*/
 			#090d1d,
 			#120824
 		);
