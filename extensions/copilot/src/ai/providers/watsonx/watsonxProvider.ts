@@ -19,6 +19,7 @@ import { PromptResolver } from "../../pipeline/promptResolver.js";
 import { RewriteType } from "../../rewriting/rewriteType.js";
 import { NATURAL_REWRITE_PROMPT } from "../../prompts/naturalRewritePrompt.js";
 import { humanize } from "../../rewriting/humanizer/humanizer.js";
+import { CODING_PROFILE } from "../../prompts/codingProfile.js";
 export class WatsonxProvider implements ILLMProvider {
 
 	private accessToken?: string;
@@ -285,6 +286,11 @@ Return only the rewritten email.`
 
 		if (isSimpleMessage) {
 			console.log("[CALL IBM] Returning draft without rewrite");
+			return draft;
+		}
+
+		if (profile === CODING_PROFILE) {
+			console.log("[YUKTI] Skipping rewrite pipeline for coding");
 			return draft;
 		}
 
