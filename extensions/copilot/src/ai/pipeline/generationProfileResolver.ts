@@ -47,6 +47,19 @@ export class GenerationProfileResolver {
 			return DOCUMENTATION_PROFILE;
 		}
 
+		// General writing / team messages
+		if (
+			prompt.includes("message") ||
+			prompt.includes("update") ||
+			prompt.includes("team") ||
+			prompt.includes("feedback") ||
+			prompt.includes("announce") ||
+			prompt.includes("inform")
+		) {
+			console.log("[PROFILE] EMAIL");
+			return EMAIL_PROFILE;
+		}
+
 		console.log("[PROFILE] CODING");
 		return CODING_PROFILE;
 	}

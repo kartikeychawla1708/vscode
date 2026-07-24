@@ -10,6 +10,8 @@ export enum RewriteType {
 
 	LinkedIn,
 
-	Report
+	Report,
+
+	CodeCorrection
 
 }

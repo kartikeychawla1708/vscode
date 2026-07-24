@@ -12,9 +12,9 @@ export interface ExtractedFacts {
 
 	subject?: string;
 
-	purpose?: string;
+	purpose: string;
 
-	tone?: string;
+	tone: string;
 
 	keyFacts: string[];
 
@@ -137,23 +137,14 @@ export class SimpleFactExtractor {
 		const uniqueFacts = [...new Set(facts)];
 
 		const result: ExtractedFacts = {
-
 			documentType: "email",
-
 			recipient,
-
 			sender,
-
 			subject,
-
 			purpose,
-
 			tone: "professional",
-
 			keyFacts: uniqueFacts
-
 		};
-
 
 		console.log("========================================");
 		console.log("[FACT EXTRACTION RESULT]");
@@ -161,7 +152,6 @@ export class SimpleFactExtractor {
 			JSON.stringify(result, null, 2)
 		);
 		console.log("========================================");
-
 
 		return result;
 

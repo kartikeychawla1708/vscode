@@ -41,6 +41,19 @@ export class RewriteDetector {
 			return RewriteType.Report;
 		}
 
+		if (
+			text.includes("fix code") ||
+			text.includes("fix this code") ||
+			text.includes("correct code") ||
+			text.includes("debug") ||
+			text.includes("bug") ||
+			text.includes("error") ||
+			text.includes("issue in code") ||
+			text.includes("why is this failing")
+		) {
+			return RewriteType.CodeCorrection;
+		}
+
 		return RewriteType.None;
 
 	}
