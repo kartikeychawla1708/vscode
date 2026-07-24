@@ -48,3 +48,5 @@ dist
 .github/prompts/*.local.prompt.md
 .agents/skills/.local/
 .github/skills/.local/
+#Watsonx Credentials
+extensions/copilot/src/ai/providers/watsonx/watsonxConfig.ts
