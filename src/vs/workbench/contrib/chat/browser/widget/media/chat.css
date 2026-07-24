@@ -7,27 +7,27 @@
 .chat-editor,
 .chat-view {
 
-    background:
-        radial-gradient(
-            circle at 50% 15%,
-            rgba(168,85,247,.18),
-            transparent 45%
-        ),
+	background:
+		radial-gradient(
+			circle at 50% 15%,
+			rgba(168,85,247,.18),
+			transparent 45%
+		),
 
-        radial-gradient(
-            circle at 80% 70%,
-            rgba(59,130,246,.15),
-            transparent 40%
-        ),
+		radial-gradient(
+			circle at 80% 70%,
+			rgba(59,130,246,.15),
+			transparent 40%
+		),
 
-        linear-gradient(
-            180deg,
-            #050816 0%,
-            #090d1f 50%,
-            #0a0820 100%
+		linear-gradient(
+			180deg,
+			#050816 0%,
+			#090d1f 50%,
+			#0a0820 100%
 			
 			
-        ) !important;
+		) !important;
 		
 }
 
@@ -1119,12 +1119,12 @@ have to be updated for changes to the rules above, or to support more deeply nes
 
 /* Idle: solid primary button background. */
 .interactive-session .chat-input-toolbars > .chat-execute-toolbar .monaco-action-bar .action-item:not(.disabled) > .action-label.codicon-arrow-up {
-	background:
-		linear-gradient(
-		135deg,
-		#2F6BFF 0%,
-		#5B45FF 50%,
-		#8B3DFF 100%
+background:
+	linear-gradient(
+	135deg,
+	#2F6BFF 0%,
+	#5B45FF 50%,
+	#8B3DFF 100%
 );
 box-shadow:
 	0 0 10px rgba(47,107,255,.5),
@@ -2586,12 +2586,12 @@ box-shadow:
 
 .quick-input-widget .interactive-list {
 	background:
-        linear-gradient(
-            180deg,
-            #050816,
-            #090d1f,
-            #0a0820
-        ) !important;
+		linear-gradient(
+		180deg,
+		#050816,
+		#090d1f,
+		#0a0820
+		) !important;
 	border-bottom-right-radius: 6px;
 	border-bottom-left-radius: 6px;
 }
@@ -4749,7 +4749,6 @@ box-shadow:
 .interactive-session {
 	/*Added by Nazeer*/
 	background:
-
 		radial-gradient(
 			circle at 50% 20%,
 			rgba(139,61,255,.16),
